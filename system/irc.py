@@ -504,9 +504,9 @@ class Bot(irc.IRCClient):
                     send(user, ", ".join(sorted(done)))
                 else:
                     if arguments[1] == "about":
-                        send(user, "I'm the MCBlock.it IRC helper bot.")
-                        send(user, "Created by gdude2002, helped by rakiru.")
-                        send(user, "I was designed for #mcblockit on irc.freenode.net")
+                        send(user, "I'm the osu! helper bot!")
+                        send(user, "Forked from Ultros by gdude2002 and rakiru.")
+                        send(user, "I was designed for #osu on irc.esper.net")
                     elif arguments[1] == "auth":
                         send(user,
                             "Auth is managed with %slogin and %slogout." % (self.control_char, self.control_char))
@@ -520,10 +520,6 @@ class Bot(irc.IRCClient):
                         send(user, "Syntax: %slogout" % self.control_char)
                         send(user, "Logs you out of the bot, provided you were already logged in.")
                         send(user, "See %shelp auth for more information." % self.control_char)
-                    elif arguments[1] == "ping":
-                        send(user, "Syntax: %sping <ip>" % self.control_char)
-                        send(user, "Retrieves the server information from a Beta/Release server.")
-                        send(user, "Can be useful to check if a server is accepting connections.")
                     elif authorized and arguments[1] == "quit":
                         send(user, "Syntax: %squit [message]" % self.control_char)
                         send(user, "Makes the bot quit, with an optional user-defined message. Requires the admin override.")
@@ -584,73 +580,6 @@ class Bot(irc.IRCClient):
                         self.squit(" ".join(arguments[1:]))
                 else:
                     send(user, "You do not have access to this command.")
-
-            elif command == "ping":
-                derp = 0
-                if len(arguments) > 1:
-                    ip = arguments[1]
-                    if ":" in ip:
-                        server, port = ip.split(":", 1)
-                        try:
-                            port = int(port)
-                        except:
-                            if authorized:
-                                self.sendmsg(channel, "%s is an invalid port number." % port)
-                            else:
-                                send(user, "%s is an invalid port number." % port)
-                            derp = 1
-                    else:
-                        server, port = ip, 25565
-                    if derp is 0:
-                        try:
-                            timing = time.time()
-                            s = socket.socket()
-                            s.settimeout(5.0)
-                            s.connect((server, port))
-                            ntiming = time.time()
-                            elapsed = ntiming - timing
-                            msec = math.floor(elapsed * 1000.0)
-                            s.send("\xFE")
-                            data = s.recv(1)
-
-                            if data.startswith("\xFF"):
-                                data = s.recv(255)
-                                s.close()
-                                data = data[3:]
-                                finlist = data.split("\xA7")
-
-                                finished = []
-
-                                for element in finlist:
-                                    donestr = ""
-                                    for character in element:
-                                        if ord(character) in range(128) and not ord(character) == 0:
-                                            donestr = donestr + character.encode("LATIN-1", "replace")
-                                    finished.append(donestr.strip("\x00"))
-
-                                if authorized:
-                                    self.sendmsg(channel, "Server info: %s (%s/%s) [Latency: %smsec]" % (
-                                        finished[0], finished[1], finished[2], msec))
-                                else:
-                                    send(user, "Server info: %s (%s/%s) [Latency: %smsec]" % (
-                                        finished[0], finished[1], finished[2], msec))
-                            else:
-                                if authorized:
-                                    self.sendmsg(channel,
-                                        "That doesn't appear to be a Minecraft server. [Latency: %smsec]" % msec)
-                                else:
-                                    send(user, "That doesn't appear to be a Minecraft server. [Latency: %smsec]" % msec)
-                        except Exception:
-                            error = str(traceback.format_exc()).split("\n")
-                            if '' in error:
-                                error.remove('')
-                            if ' ' in error:
-                                error.remove(' ')
-                            error = error[-1]
-                            if authorized:
-                                self.sendmsg(channel, error)
-                            else:
-                                send(user, error)
             elif command == "ignore":
                 if authorized:
                     if len(arguments) > 1:
@@ -704,8 +633,6 @@ class Bot(irc.IRCClient):
                 except Exception as e:
                     traceback.print_exc(e)
                     send(user, "Error: %s" % e)
-            else:
-                self.logs.info("DEBUG: No such command")
         elif msg.startswith("??") or msg.startswith("?!"):
             cinfo = {"user": user, "hostmask": userhost.split("!", 1)[1], "origin": channel, "message": msg,
                      "target": channel}
@@ -954,9 +881,9 @@ class Bot(irc.IRCClient):
         name = user.split("!", 1)[0]
         # It's a CTCP query!
         if messages[0][0].lower() == "action":
-            actions = {"pets": self.ctcp + "ACTION purrs" + self.ctcp,
-                       "strokes": self.ctcp + "ACTION purrs" + self.ctcp,
-                       "feeds": self.ctcp + "ACTION noms ^user^'s food" + self.ctcp + "\n=^.^="
+            actions = {#"pets": self.ctcp + "ACTION purrs" + self.ctcp,
+#                       "strokes": self.ctcp + "ACTION purrs" + self.ctcp,
+#                       "feeds": self.ctcp + "ACTION noms ^user^'s food" + self.ctcp + "\n=^.^="
             }
             for element in actions.keys():
                 action = element + " " + self.nickname
@@ -969,13 +896,13 @@ class Bot(irc.IRCClient):
                     message = message.replace("^me^", me)
                     self.sendmsg(me, message)
         elif messages[0][0].lower() == "version":
-            self.ctcpMakeReply(name, [(messages[0][0], "A Python bot written for #mcblockit. See .help about")])
+            self.ctcpMakeReply(name, [(messages[0][0], "A Python bot written for #osu on Esper. See .help about")])
             self.logs.info("<- %s [CTCP VERSION]" % user)
-            self.logs.info("-> %s [CTCP VERSION REPLY] A Python bot written for #mcblockit. See .help about" % user)
+            self.logs.info("-> %s [CTCP VERSION REPLY] A Python bot written for #osu on Esper. See .help about" % user)
         elif messages[0][0].lower() == "finger":
-            self.ctcpMakeReply(name, [(messages[0][0], "No. Just, no.")])
+            self.ctcpMakeReply(name, [(messages[0][0], "Don't fiddle kiddies, kiddie-fiddler!")])
             self.logs.info("<- %s [CTCP FINGER]" % user)
-            self.logs.info("-> %s [CTCP FINGER REPLY] No. Just, no." % user)
+            self.logs.info("-> %s [CTCP FINGER REPLY] Don't fiddle kiddies, kiddie-fiddler!" % user)
         else:
             self.logs.info("<- %s [CTCP %s] %s" % (user, messages[0][0].upper(), " ".join(messages[0])))
 

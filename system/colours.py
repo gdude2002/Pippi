@@ -5,15 +5,15 @@ from colorama import Fore, Back, Style, init
 
 init()
 
-def colstrip(message, times=-1):
+def colstrip(message):
     if not message.strip(" ").strip("\n") == "":
-        done = string.replace(message, "0", "")
-        done = string.replace(done, "10", "")
+        done = string.replace(message, "10", "")
         done = string.replace(done, "11", "")
         done = string.replace(done, "12", "")
         done = string.replace(done, "13", "")
         done = string.replace(done, "14", "")
         done = string.replace(done, "15", "")
+        done = string.replace(done, "0", "")
         done = string.replace(done, "1", "")
         done = string.replace(done, "2", "")
         done = string.replace(done, "3", "")

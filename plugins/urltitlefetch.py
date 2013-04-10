@@ -99,9 +99,9 @@ class plugin(object):
                 self.irc.sendnotice(user, "No title or not a URL")
             else:
                 if self.channels[channel]["status"] == "all" or (self.channels[channel]["status"] == "on" and (self.irc.is_voice(channel, user) or self.irc.is_op(channel, user))):
-                    self.irc.sendmsg(channel, "\"%s\" at %s [%s]" % (title, domain, tiny))
+                    self.irc.sendmsg(channel, "\"%s\" at %s [ %s ]" % (title, domain, tiny))
                 else:
-                    self.irc.sendnotice(user, "\"%s\" at %s [%s]" % (title, domain, tiny))
+                    self.irc.sendnotice(user, "\"%s\" at %s [ %s ]" % (title, domain, tiny))
         elif not self.channels[channel]["last"] == None:
             title, domain = self.pagetitle(self.channels[channel]["last"], channel)
             tiny = urllib.urlopen("http://api.waa.ai/?url=" + urllib.quote_plus(self.channels[channel]["last"])).read()
@@ -109,9 +109,9 @@ class plugin(object):
                 self.irc.sendnotice(user, "No title or not a URL")
             else:
                 if self.channels[channel]["status"] == "all" or (self.channels[channel]["status"] == "on" and (self.irc.is_voice(channel, user) or self.irc.is_op(channel, user))):
-                    self.irc.sendmsg(channel, "\"%s\" at %s [%s]" % (title, self.channels[channel]["last"], tiny))
+                    self.irc.sendmsg(channel, "\"%s\" at %s [ %s ]" % (title, self.channels[channel]["last"], tiny))
                 else:
-                    self.irc.sendnotice(user, "\"%s\" at %s [%s]" % (title, self.channels[channel]["last"], tiny))
+                    self.irc.sendnotice(user, "\"%s\" at %s [ %s ]" % (title, self.channels[channel]["last"], tiny))
 
     def pagetitle(self, url, channel):
         if not url.split(".")[-1] in self.notParse:

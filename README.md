@@ -1,9 +1,4 @@
-McBlockit---Helpbot
+Pippi
 ===================
 
-<p align="center" style="border: 1px solid black; border-radius: 5px;">
-  <img src="http://instacode.linology.info/wallpaper/41932/fhd"/>
-</p>
-
-Originally the helperbot for MCBlockit IRC (#mcblockit on Freenode), this bot has become sort of widely varied. Some people may know it as Ultros.
-
+This is a bot developed for #osu on irc.esper.net - To help out in general and provide some IRC integration with the main osu! site.

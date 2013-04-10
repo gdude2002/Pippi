@@ -61,9 +61,10 @@ class plugin(object):
 
         if self.channels[channel]["status"] == "all" or (self.channels[channel]["status"] == "on" and (self.irc.is_voice(channel, user) or self.irc.is_op(channel, user))):
             title, domain = self.pagetitle(message.split()[0], channel)
-            tiny = urllib.urlopen("http://api.waa.ai/?url=" + urllib.quote_plus(message.split()[0])).read()
+#            tiny = urllib.urlopen("http://api.waa.ai/?url=" + urllib.quote_plus(message.split()[0])).read()
             if not title is None:
-                self.irc.sendmsg(channel, "\"%s\" at %s [%s]" % (title, domain, tiny))
+#                self.irc.sendmsg(channel, "\"%s\" at %s [%s]" % (title, domain, tiny))
+                self.irc.sendmsg(channel, "\"%s\" at %s" % (title, domain))
 
     def url_options(self, user, channel, arguments):
         if len(arguments) == 1:

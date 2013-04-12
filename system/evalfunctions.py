@@ -47,10 +47,10 @@ class evalFunctions(object):
         return random.randint(lo, hi)
 
     def toJson(self, obj):
-        json.dumps(obj)
+        return json.dumps(obj)
 
     def fromJson(self, obj):
-        json.loads(obj)
+        return json.loads(obj)
 
     def md5(self, data):
         return hashlib.md5(data).hexdigest()

@@ -75,7 +75,6 @@ class evalFunctions(object):
     def wtest(self, message):
         info = message.info()
         typec = info["Content-Type"].lower()
-        self.bot.prnt(message.geturl())
         if ";" in typec:
             typec = typec.split(";")[0]
         try:

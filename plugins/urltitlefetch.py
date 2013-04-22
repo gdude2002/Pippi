@@ -57,7 +57,7 @@ class plugin(object):
 
         self.YOUTUBE_DESCRIPTION_LENGTH = 75
 
-        self.OSU_LOGO = irc.col + "13Osu!" + irc.col
+        self.OSU_LOGO = irc.col + "13osu!" + irc.col
         self.OSU_MAP_FORMAT = "[" + self.OSU_LOGO + " map] %s [%s]"
 
     def load(self):

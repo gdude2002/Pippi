@@ -58,7 +58,8 @@ class plugin(object):
         self.YOUTUBE_DESCRIPTION_LENGTH = 75
 
         self.OSU_LOGO = irc.col + "13osu!" + irc.col
-        self.OSU_MAP_FORMAT = "[" + self.OSU_LOGO + " map] %s [%s]"
+        self.OSU_MAP_FORMAT = "[" + self.OSU_LOGO + " beatmap] %s [%s]"
+        self.OSU_SET_FORMAT = "[" + self.OSU_LOGO + " map set] %s"
 
     def load(self):
         self.channels = self.settings.load("channels")
@@ -285,7 +286,10 @@ class plugin(object):
                         osu_map = parts[1] + "/" + parts[2]
                         json_data = urllib.urlopen("http://ash.gserv.me:8000/json/%s" % osu_map).read()
                         map_data = json.loads(json_data)
-                        return self.OSU_MAP_FORMAT % (map_data["title"], map_data["difficulty"])
+                        if parts[1] == "b":
+                            return self.OSU_MAP_FORMAT % (map_data["title"], map_data["difficulty"])
+                        else:
+                            return self.OSU_SET_FORMAT % (map_data["title"])
                     elif parts[1] == "u":
                         osu_user = parts[2]
                         #TODO: Get the user data and return a nice message

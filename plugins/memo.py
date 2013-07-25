@@ -67,7 +67,7 @@ class plugin(object):
         if user in sendto:
             memomsg = memos[user]
             message = ', '.join(memomsg)
-            self.irc.send_raw("PRIVMSG " + channel + " Memo for " + data['user'] + ": " + message + ".")
+            self.irc.send_raw("PRIVMSG " + channel + " :Memo for " + data['user'] + ": " + message + ".")
             del memos[user]
             self.save()
 
@@ -82,7 +82,7 @@ class plugin(object):
                     self.memos[receiver] = []
                 self.memos[receiver].append(msg)
                 self.irc.send_raw(
-                    "PRIVMSG " + channel + " I'll send it to " + receiver + ".")
+                    "PRIVMSG " + channel + " :I'll send it to " + receiver + ".")
                 self.save()
             else:
                 self.irc.send_raw(
